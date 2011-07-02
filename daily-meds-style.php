@@ -3,14 +3,14 @@ $base = (isset($_GET['base']) ? $_GET['base'] : "");
 header('Content-type: text/css');
 ?>
 .widget_daily_meds .inside {
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .widget_daily_meds .overflow {
 	background-image: url(<?php echo $base; ?>/images/middle.gif);
 	width: 190px;
 	padding: 0 15px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .widget_daily_meds .top {
