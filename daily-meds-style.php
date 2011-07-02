@@ -3,7 +3,8 @@ $base = (isset($_GET['base']) ? $_GET['base'] : "");
 header('Content-type: text/css');
 ?>
 .widget_daily_meds .inside {
-
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .widget_daily_meds .overflow {
