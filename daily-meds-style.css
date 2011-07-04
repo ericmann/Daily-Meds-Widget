@@ -1,12 +1,8 @@
-<?php
-$base = (isset($_GET['base']) ? $_GET['base'] : "");
-header('Content-type: text/css');
-?>
 .widget_daily_meds .inside {
 }
 
 .widget_daily_meds .overflow {
-	background-image: url(<?php echo $base; ?>/images/middle.gif);
+	background-image: url(images/middle.gif);
 	width: 190px;
 	padding: 0 15px;
 	margin-left: auto;
@@ -15,7 +11,7 @@ header('Content-type: text/css');
 
 .widget_daily_meds .top {
 	display: block;
-	background-image: url(<?php echo $base; ?>/images/top.gif);
+	background-image: url(images/top.gif);
 	width: 220px;
 	height: 25px;
 	margin-left: -15px;
@@ -47,7 +43,7 @@ header('Content-type: text/css');
 
 .widget_daily_meds .bottom {
 	display: block;
-	background-image: url(<?php echo $base; ?>/images/bottom.gif);
+	background-image: url(images/bottom.gif);
 	width: 220px;
 	height: 21px;
 	margin-left: -15px;

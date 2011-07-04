@@ -41,6 +41,7 @@ class Daily_Meds_Widget extends WP_Widget {
 
 		//Check the cache first to see if it's hot
 		$meditation = get_transient( 'latest_daily_med' );
+		$med = array();
 
 		if( ! $meditation ) {
 			include_once( ABSPATH . WPINC . '/rss-functions.php' );
@@ -67,6 +68,9 @@ class Daily_Meds_Widget extends WP_Widget {
 			$med = unserialize( $meditation );
 		}
 
+		if( ! isset( $med['link'] ) || ! isset( $med['title'] ) || ! isset( $med['content'] ) )
+			return;
+
 		echo $before_widget;
 		echo '<div class="inside">';
 		echo '<div class="overflow">';
@@ -82,7 +86,7 @@ class Daily_Meds_Widget extends WP_Widget {
 }
 
 function daily_meds_style() {
-	wp_enqueue_style( 'daily-meds-style', WP_PLUGIN_URL . '/daily-meds-widget/daily-meds-style.php?base=' . WP_PLUGIN_URL . '/daily-meds-widget', '', '1.0' );
+	wp_enqueue_style( 'daily-meds-style', WP_PLUGIN_URL . '/daily-meds-widget/daily-meds-style.css', '', '1.0' );
 }
 
 // register widget
