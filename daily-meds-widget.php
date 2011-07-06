@@ -3,7 +3,7 @@
 Plugin Name: Daily Meds Widget
 Plugin URI: http://jumping-duck.com/wordpress
 Description: Add a sidebar widget to display the latest meditation from www.DailyMedToday.com
-Version: 1.0
+Version: 1.0.1
 Author: Eric Mann
 Author URI: http://eamann.com
 License: GPL3+
@@ -44,25 +44,22 @@ class Daily_Meds_Widget extends WP_Widget {
 		$med = array();
 
 		if( ! $meditation ) {
-			include_once( ABSPATH . WPINC . '/rss-functions.php' );
-			$fetched = fetch_rss( "http://dailymedtoday.com/?s=meditation%20for&feed=rss2" );
+			include_once( ABSPATH . WPINC . '/feed.php' );
+			$fetched = fetch_feed( "http://dailymedtoday.com/?s=meditation%20for&feed=rss2" );
 
-			if( $fetched ) {
-				$items = array_slice($fetched->items, 0, 1);
-				if( count($items) > 0 ) {
-					$latest = $items[0];
+			if( ! is_wp_error( $fetched ) ) {
+				$latest = $fetched->get_item();
 
-					$med = array(
-						'title' => $latest['title'],
-						'excerpt' => $latest['description'],
-						'content' => $latest['content'],
-						'link' => $latest['link']
-					);
+				$med = array(
+					'title' => esc_attr(strip_tags($latest->get_title())),
+					'excerpt' => str_replace( array("\n", "\r"), ' ', esc_attr( strip_tags( @html_entity_decode( $latest->get_description(), ENT_QUOTES, get_option('blog_charset') ) ) ) ),
+					'content' => str_replace( array("\n", "\r"), ' ', $latest->get_content() ),
+					'link' => esc_url(strip_tags($latest->get_link()))
+				);
 
-					$meditation = serialize( $med );
+				$meditation = serialize( $med );
 
-					set_transient( 'latest_daily_med', $meditation, 21600 );
-				}
+				set_transient( 'latest_daily_med', $meditation, 3600 );
 			}
 		} else {
 			$med = unserialize( $meditation );
@@ -76,7 +73,7 @@ class Daily_Meds_Widget extends WP_Widget {
 		echo '<div class="overflow">';
 		echo '<span class="top"></span>';
 		echo '<h2><a href="' . $med['link'] . '">' . $med['title'] . '</a></h2>';
-		echo '<p>' . $med['content']['encoded'] . '</p>';
+		echo '<p>' . $med['content'] . '</p>';
 		echo '<p class="credit">Powered by <a href="http://dailymedtoday.com">DailyMedToday.com</a></p>';
 		echo '<span class="bottom"></span>';
 		echo '</div>';
@@ -86,7 +83,7 @@ class Daily_Meds_Widget extends WP_Widget {
 }
 
 function daily_meds_style() {
-	wp_enqueue_style( 'daily-meds-style', WP_PLUGIN_URL . '/daily-meds-widget/daily-meds-style.css', '', '1.0' );
+	wp_enqueue_style( 'daily-meds-style', WP_PLUGIN_URL . '/daily-meds-widget/daily-meds-style.css', '', '1.0.1' );
 }
 
 // register widget

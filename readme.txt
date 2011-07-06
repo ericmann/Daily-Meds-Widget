@@ -4,7 +4,7 @@ Donate link: http://jumping-duck.com/wordpress
 Tags: meditation, Bible verse, widget
 Requires at least: 3.1
 Tested up to: 3.2
-Stable tag: 1.0
+Stable tag: 1.0.1
 
 Adds a sidebar widget with the latest mediation from DailyMedToday.com.
 
@@ -33,6 +33,10 @@ been posted, you'll get it immediately.  If not, you won't see anything.
 1. Widget displayed in the sidebar.
 
 == Changelog ==
+
+= 1.0.1 =
+* Decrease transient timeout from 6 hours to 1 hour
+* Use SimplePie class for RSS feeds
 
 = 1.0 =
 * First release
