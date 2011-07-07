@@ -1,5 +1,12 @@
 <?php
 if ( ! class_exists('Daily_Meds_Widget') ) :
+/**
+ * This class adds the Daily Meds Widget to WordPress and makes it available for use in a sidebar.
+ *
+ * @package WordPress
+ * @subpackage DailyMedsWidget
+ * @since 1.0.2
+ */
 class Daily_Meds_Widget extends WP_Widget {
 	function Daily_Meds_Widget() {
 		$widget_ops = array(

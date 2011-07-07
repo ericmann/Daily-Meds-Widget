@@ -38,9 +38,11 @@ function _daily_meds_php_warning() {
 if ( version_compare( PHP_VERSION, '5.0', '<' ) ) {
 	add_action('admin_notices', '_daily_meds_php_warning');
 } else {
-	require_once( 'lib/class-daily-meds-widget.php' );
+	// Load required class definitions.
 	require_once( 'lib/class-daily-meds.php' );
+	require_once( 'lib/class-daily-meds-widget.php' );
 
+	// Initialize all of the plugin's hooks.
 	Daily_Meds::init();
 }
 ?>

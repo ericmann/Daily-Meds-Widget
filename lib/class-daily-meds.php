@@ -1,5 +1,12 @@
 <?php
 if ( ! class_exists('Daily_Meds') ) :
+/**
+ * Contains primary functionality for the plugin.
+ *
+ * @package WordPress
+ * @subpackage DailyMedsWidget
+ * @since 1.0.2
+ */
 class Daily_Meds {
 	public static function init() {
 		// register widget
