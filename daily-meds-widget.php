@@ -26,67 +26,21 @@ License: GPL3+
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-class Daily_Meds_Widget extends WP_Widget {
-	function Daily_Meds_Widget() {
-		$widget_ops = array(
-			'classname' => 'widget_daily_meds',
-			'description' => 'Add the latest meditation from DailyMedToday.com to your sidebar.'
-		);
-
-		$this->WP_Widget( false, 'Daily Meds Widget', $widget_ops );
-	}
-
-	function widget( $args, $instance ) {
-		extract( $args );
-
-		//Check the cache first to see if it's hot
-		$meditation = get_transient( 'latest_daily_med' );
-		$med = array();
-
-		if( ! $meditation ) {
-			include_once( ABSPATH . WPINC . '/feed.php' );
-			$fetched = fetch_feed( "http://dailymedtoday.com/?s=meditation%20for&feed=rss2" );
-
-			if( ! is_wp_error( $fetched ) ) {
-				$latest = $fetched->get_item();
-
-				$med = array(
-					'title' => esc_attr(strip_tags($latest->get_title())),
-					'excerpt' => str_replace( array("\n", "\r"), ' ', esc_attr( strip_tags( @html_entity_decode( $latest->get_description(), ENT_QUOTES, get_option('blog_charset') ) ) ) ),
-					'content' => str_replace( array("\n", "\r"), ' ', $latest->get_content() ),
-					'link' => esc_url(strip_tags($latest->get_link()))
-				);
-
-				$meditation = serialize( $med );
-
-				set_transient( 'latest_daily_med', $meditation, 3600 );
-			}
-		} else {
-			$med = unserialize( $meditation );
-		}
-
-		if( ! isset( $med['link'] ) || ! isset( $med['title'] ) || ! isset( $med['content'] ) )
-			return;
-
-		echo $before_widget;
-		echo '<div class="inside">';
-		echo '<div class="overflow">';
-		echo '<span class="top"></span>';
-		echo '<h2><a href="' . $med['link'] . '">' . $med['title'] . '</a></h2>';
-		echo '<p>' . $med['content'] . '</p>';
-		echo '<p class="credit">Powered by <a href="http://dailymedtoday.com">DailyMedToday.com</a></p>';
-		echo '<span class="bottom"></span>';
-		echo '</div>';
-		echo '</div>';
-		echo $after_widget;
-	}
+/*
+ * Sets admin warnings regarding required PHP version.
+ */
+function _daily_meds_php_warning() {
+	echo '<div id="message" class="error">';
+	echo '  <p>The Daily Meds Widget requires at least PHP 5.  Your system is running version ' . PHP_VERSION . ', which is not compatible!</p>';
+	echo '</div>';
 }
 
-function daily_meds_style() {
-	wp_enqueue_style( 'daily-meds-style', WP_PLUGIN_URL . '/daily-meds-widget/daily-meds-style.css', '', '1.0.1' );
-}
+if ( version_compare( PHP_VERSION, '5.0', '<' ) ) {
+	add_action('admin_notices', '_daily_meds_php_warning');
+} else {
+	require_once( 'lib/class-daily-meds-widget.php' );
+	require_once( 'lib/class-daily-meds.php' );
 
-// register widget
-add_action( 'widgets_init',    create_function('', 'return register_widget("Daily_Meds_Widget");') );
-add_action( 'wp_print_styles', 'daily_meds_style' );
+	Daily_Meds::init();
+}
 ?>
