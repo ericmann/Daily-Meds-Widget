@@ -5,6 +5,7 @@ Tags: meditation, Bible verse, widget
 Requires at least: 3.1
 Tested up to: 3.2
 Stable tag: 1.0.1
+License GPLv2+
 
 Adds a sidebar widget with the latest mediation from DailyMedToday.com.
 

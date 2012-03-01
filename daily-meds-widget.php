@@ -6,13 +6,13 @@ Description: Add a sidebar widget to display the latest meditation from www.Dail
 Version: 1.0.1
 Author: Eric Mann
 Author URI: http://eamann.com
-License: GPL3+
+License: GPLv2+
 */
 
 /* Copyright 2011  Eric Mann, Jumping Duck Media
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 3 or, at
+ * it under the terms of the GNU General Public License, version 2 or, at
  * your discretion, any later version, as published by the Free
  * Software Foundation.
  *
